@@ -27,6 +27,12 @@ const computeSelectedNames = () => {
 
 const selectedNames = ref<string[]>([])
 
+const removeName = (index: number) => {
+  const filteredNames = [...selectedNames.value]
+  filteredNames.splice(index, 1)
+  selectedNames.value = filteredNames
+}
+
 const optionsArray = [
   {
     title: "1) Choose a gender",
@@ -47,19 +53,17 @@ const optionsArray = [
 
 </script>
 
-<template>>
+<template>
   <div class="container">
-    <h1>Baby Name Generator</h1>
+    <h1>Pet Name Generator</h1>
     <p>Choose your options and click the "Find Names" buttom below</p>
     <div class="options-container">
       <Option v-for="option in optionsArray" :key="option.title" :option="option" :options="options" />
       <button class="primary" @click="computeSelectedNames">Find Names</button>
     </div>
     <div class="cards-container">
-      <div v-for="name in selectedNames" :key="name" class="card">
-        <h4>{{ name }}</h4>
-        <p>x</p>
-      </div>
+      <CardName v-for="(name, index) in selectedNames" :key="name" :name="name" :index="index"
+        @remove="() => removeName(index)" />
     </div>
   </div>
 </template>
@@ -67,7 +71,7 @@ const optionsArray = [
 <style scoped>
 .container {
   font-family: Arial, Helvetica, sans-serif;
-  color: rgb(27, 60, 138);
+  color: #274954;
   max-width: 50rem;
   margin: 0 auto;
   text-align: center;
@@ -78,7 +82,7 @@ const optionsArray = [
 }
 
 .primary {
-  background-color: rgb(249, 87, 89);
+  background-color: #70A9A1;
   color: white;
   border-radius: 6.5rem;
   border: none;
@@ -89,7 +93,7 @@ const optionsArray = [
 }
 
 .options-container {
-  background-color: rgb(255, 238, 236);
+  background-color: #F6F1D1;
   border-radius: 2rem;
   padding: 1rem;
   width: 95%;
@@ -100,27 +104,10 @@ const optionsArray = [
 
 .cards-container {
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 3rem;
   flex-wrap: wrap;
-}
-
-.card {
-  background-color: rgb(27, 60, 138);
-  width: 28%;
-  color: white;
-  border-radius: 1rem;
-  padding: 0.1rem;
-  margin-right: 0.5rem;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.card p {
-  position: absolute;
-  top: -29%;
-  left: 92.5%;
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.178);
 }
 </style>
 
